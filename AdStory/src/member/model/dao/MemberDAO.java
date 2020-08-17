@@ -490,6 +490,9 @@ public class MemberDAO {
 		return totalContents;
 	}
 
+
+	
+
 	
 
 }

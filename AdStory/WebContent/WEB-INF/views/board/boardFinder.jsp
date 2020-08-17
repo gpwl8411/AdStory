@@ -109,9 +109,9 @@
 
     
 
-              
-           <% } %>    
-             <div id="search-memberId" class="flex m-auto mt-10">
+                
+           <% } %>     
+           <div id="search-memberId" class="flex m-auto mt-10">
             <form class="m-auto" action="<%=request.getContextPath()%>/board/finder">
 		        <select name="searchType" class="border text-grey-darker py-1 px-2 pr-8 rounded leading-tight focus:outline-none" id="searchType">
 		         <option value="title">제목</option>
@@ -129,5 +129,5 @@
 		             </div>
 			    </div>
                 <!-- 밑에 여백 -->
-                <div class="bottom-of-main"></div> 
+                <div class="bottom-of-main"></div>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
