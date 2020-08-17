@@ -13,14 +13,16 @@ public class BoardComment implements Serializable{
 	private int commentLevel;
 	private int commentRef;
 	private String status;
+	
+	private String refMemberName;
 
 	public BoardComment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoardComment(int key, int postKey, int userKey, String content, Date commentDate, int commentLevel, int commentRef,
-			String status) {
+	public BoardComment(int key, int postKey, int userKey, String content, Date commentDate, int commentLevel,
+			int commentRef, String status) {
 		super();
 		this.key = key;
 		this.postKey = postKey;
@@ -30,6 +32,22 @@ public class BoardComment implements Serializable{
 		this.commentLevel = commentLevel;
 		this.commentRef = commentRef;
 		this.status = status;
+	}
+
+	public BoardComment(int key, int postKey, int userKey, String content, Date commentDate, int commentLevel, int commentRef,
+			String status,String refMemberName) {
+		super();
+		this.key = key;
+		this.postKey = postKey;
+		this.userKey = userKey;
+		this.content = content;
+		this.commentDate = commentDate;
+		this.commentLevel = commentLevel;
+		this.commentRef = commentRef;
+		this.status = status;
+		this.refMemberName = refMemberName;
+		
+		
 	}
 
 	public int getKey() {
@@ -95,13 +113,25 @@ public class BoardComment implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+
+	public String getRefMemberName() {
+		return refMemberName;
+	}
+
+	public void setRefMemberName(String refMemberName) {
+		this.refMemberName = refMemberName;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardComment [key=" + key + ", postKey=" + postKey + ", userKey=" + userKey + ", content=" + content
 				+ ", commentDate=" + commentDate + ", commentLevel=" + commentLevel + ", commentRef=" + commentRef
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", refMemberName=" + refMemberName + "]";
 	}
+	
+
+	
 
 	
 	

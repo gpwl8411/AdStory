@@ -168,7 +168,7 @@ function deleteBoard(){
 					if(bc.getCommentLevel() == 1){
 		%>
 			<tr class="level1">
-				<td><sub class="comment-writer"> <%= bc.getUserKey()%>
+				<td><sub class="comment-writer"> <%= bc.getRefMemberName()%>
 				</sub> <sub class="comment-date"> <%= bc.getCommentDate() %>
 				</sub> <br /> <%= bc.getContent() %></td>
 				<td>
@@ -184,7 +184,7 @@ function deleteBoard(){
 					} else {
 		%>
 			<tr class="level2">
-				<td><sub class="comment-writer"> <%= bc.getUserKey()%>
+				<td><sub class="comment-writer"> <%= bc.getRefMemberName()%>
 				</sub> <sub class="comment-date"> <%= bc.getCommentDate() %>
 				</sub> <br /> <%= bc.getContent() %></td>
 				<td>

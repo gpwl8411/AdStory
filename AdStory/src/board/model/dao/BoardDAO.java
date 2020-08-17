@@ -347,6 +347,7 @@ public class BoardDAO {
 				bc.setCommentLevel(rset.getInt("comment_level"));
 				bc.setCommentRef(rset.getInt("comment_ref"));
 				bc.setStatus(rset.getString("status"));
+				bc.setRefMemberName(rset.getString("name"));
 //				bc.setBoardCommentNo(rset.getInt("board_comment_no"));
 //				bc.setBoardCommentLevel(rset.getInt("board_comment_level"));
 //				bc.setBoardCommentWriter(rset.getString("board_comment_writer"));
