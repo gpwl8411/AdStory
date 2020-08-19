@@ -42,7 +42,6 @@ public class BoardInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<BoardCategory> categoryList = new BoardService().selectCategoryList();
 		System.out.println("categoryList = "+categoryList);
-		
 		request.setAttribute("categoryList", categoryList);
 		request.getRequestDispatcher("/WEB-INF/views/board/boardInsert.jsp")
 			   .forward(request, response);
@@ -87,6 +86,13 @@ public class BoardInsertServlet extends HttpServlet {
 		int clickPrice = Integer.parseInt(multipartRequest.getParameter("clickPrice"));
 		String url = multipartRequest.getParameter("url");
 		int point = Integer.parseInt(multipartRequest.getParameter("point"));
+		//메인이미지 파일명
+		String mainImageOrigin
+			= multipartRequest.getOriginalFileName("upMainImage");
+		String mainImageRename
+		= multipartRequest.getFilesystemName("upMainImage");
+//		System.out.println("***메인이미지"+mainImageOrigin);
+//		System.out.println("***메인이미지"+mainImageRename);
 		//사용자가 업로드한 파일명
 		String originalFileName 
 			= multipartRequest.getOriginalFileName("upFile");
@@ -94,7 +100,7 @@ public class BoardInsertServlet extends HttpServlet {
 		String renamedFileName
 			= multipartRequest.getFilesystemName("upFile");
 		Board board = new Board(0, categoryKey, userKey, title, content, null,null,
-				clickPrice, point, url, originalFileName, renamedFileName, 0,null,null);
+				clickPrice, point, url, originalFileName, renamedFileName, 0,mainImageOrigin,mainImageRename);
 		
 		//2.업무로직
 		int insertResult = 0;
@@ -110,7 +116,12 @@ public class BoardInsertServlet extends HttpServlet {
 		//3.view단처리
 		String msg = "";
 		String loc = "";
-		
+//		if(categoryKey == -1) {
+//			request.setAttribute("msg", msg);
+//			request.setAttribute("loc", loc);
+//			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp")
+//				   .forward(request, response);
+//		}
 		if(insertResult > 0 ) {
 			msg = "게시글 등록 성공!";
 			loc = request.getContextPath()+"/board/view?boardNo="+boardNo;

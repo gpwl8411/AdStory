@@ -1,4 +1,5 @@
 package board.model.dao;
+
 import static common.JDBCTemplate.close;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,39 +18,40 @@ import board.model.vo.Board;
 import board.model.vo.BoardCategory;
 import board.model.vo.BoardComment;
 import member.model.vo.Member;
+
 public class BoardDAO {
 	private Properties prop = new Properties();
-	
+
 	public BoardDAO() {
 		try {
-			//클래스객체 위치찾기 : 절대경로를 반환한다.
+			// 클래스객체 위치찾기 : 절대경로를 반환한다.
 			String fileName = BoardDAO.class.getResource("/sql/board/board-query.properties").getPath();
 			prop.load(new FileReader(fileName));
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 	public Board selectOne(Connection conn, int board_no) {
 		Board b = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String query = prop.getProperty("selectOne");
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성
+			// 쿼리문미완성
 			pstmt.setInt(1, board_no);
-			//쿼리문실행
-			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// 쿼리문실행
+			// 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
-			if(rset.next()){
+			if (rset.next()) {
 				b = new Board();
-				//컬럼명은 대소문자 구분이 없다.
+				// 컬럼명은 대소문자 구분이 없다.
 				b.setKey(rset.getInt("key"));
 				b.setCategoryKey(rset.getInt("category_key"));
 //			System.out.println("rset"+rset.getInt("category_key"));
@@ -66,41 +68,42 @@ public class BoardDAO {
 				b.setApplyNum(rset.getInt("apply_num"));
 				b.setMainImageOrigin(rset.getString("main_image_origin"));
 				b.setMainImageRename(rset.getString("main_image_rename"));
-				
+
 				b.setRefMemberName(rset.getString("name"));
 				b.setRefBoardCategoryName(rset.getString("category_name"));
-				
+
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		System.out.println("selectOne@dao = "+b);
+		System.out.println("selectOne@dao = " + b);
 		return b;
 	}
+
 	public List<Board> selectBoardList(Connection conn, int cPage, int numPerPage) {
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String query = prop.getProperty("selectBoardList");
-		
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			
-			//시작 rownum과 마지막 rownum 구하는 공식
-			pstmt.setInt(1, (cPage-1)*numPerPage+1);
-			pstmt.setInt(2, cPage*numPerPage);
-			//쿼리문실행
-			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+
+			// 시작 rownum과 마지막 rownum 구하는 공식
+			pstmt.setInt(1, (cPage - 1) * numPerPage + 1);
+			pstmt.setInt(2, cPage * numPerPage);
+			// 쿼리문실행
+			// 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()){
+
+			while (rset.next()) {
 				Board b = new Board();
-				//컬럼명은 대소문자 구분이 없다.
+				// 컬럼명은 대소문자 구분이 없다.
 				b.setKey(rset.getInt("key"));
 				b.setCategoryKey(rset.getInt("category_key"));
 				b.setUserKey(rset.getInt("user_key"));
@@ -116,59 +119,62 @@ public class BoardDAO {
 				b.setApplyNum(rset.getInt("apply_num"));
 				b.setMainImageOrigin(rset.getString("main_image_origin"));
 				b.setMainImageRename(rset.getString("main_image_rename"));
-				
+
 				b.setRefMemberName(rset.getString("name"));
 				b.setRefBoardCategoryName(rset.getString("category_name"));
-				
+
 //				System.out.println("b = "+b);
-				
+
 				list.add(b);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 //		System.out.println("list@boardDAO = " + list);
 		return list;
 	}
+
 	public int selectBoardCount(Connection conn) {
 		PreparedStatement pstmt = null;
 		int totalMember = 0;
 		ResultSet rset = null;
 		String query = prop.getProperty("selectBoardCount");
-		
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			
-			//쿼리문실행
+
+			// 쿼리문실행
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()){
+
+			while (rset.next()) {
 				totalMember = rset.getInt("cnt");
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		
+
 		return totalMember;
 	}
+
 	public int insertBoard(Connection conn, Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertBoard");
-		//insert into board
-		//values (seq_board_no.nextval, ?, ?, ?, ?, ?, default, default)
-		//(SEQ_AD_POST.NEXTVAL, 1, 1, '오렌지 상품 홍보','오렌지 어쩌구저쩌구 ㅁㄴㅇㄹ',
-		//SYSDATE, DEFAULT, 500, 1000000, 'https://kr.sunkist.com/',
-		//NULL, NULL, DEFAULT, NULL);
-		//values (seq_ad_post.nextval,?,?,?,?,sysdate,default,?,?,?,?,?,default,default,null,null)
-		
+		// insert into board
+		// values (seq_board_no.nextval, ?, ?, ?, ?, ?, default, default)
+		// (SEQ_AD_POST.NEXTVAL, 1, 1, '오렌지 상품 홍보','오렌지 어쩌구저쩌구 ㅁㄴㅇㄹ',
+		// SYSDATE, DEFAULT, 500, 1000000, 'https://kr.sunkist.com/',
+		// NULL, NULL, DEFAULT, NULL);
+		// values
+		// (seq_ad_post.nextval,?,?,?,?,sysdate,default,?,?,?,?,?,default,default,null,null)
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getCategoryKey());
@@ -180,91 +186,97 @@ public class BoardDAO {
 			pstmt.setString(7, board.getUrl());
 			pstmt.setString(8, board.getOriginalFileName());
 			pstmt.setString(9, board.getRenamedFileName());
-			
+			pstmt.setString(10, board.getMainImageOrigin());
+			pstmt.setString(11, board.getMainImageRename());
+
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
-//		System.out.println("resultBoard@dao = " + board);
-		
+
+		System.out.println("****resultBoard@dao = " + board);
+
 		return result;
 	}
+
 	public List<BoardCategory> selectCategoryList(Connection conn) {
 		List<BoardCategory> categoryList = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String query = prop.getProperty("selectBoardCategoryList");
-		
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문실행
-			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// 쿼리문실행
+			// 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()){
+
+			while (rset.next()) {
 				BoardCategory b = new BoardCategory();
-				//컬럼명은 대소문자 구분이 없다.
+				// 컬럼명은 대소문자 구분이 없다.
 				b.setKey(rset.getInt("key"));
 				b.setCategoryName(rset.getString("category_name"));
-				
+
 //				System.out.println("b = "+b);
-				
+
 				categoryList.add(b);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		System.out.println("categorylist@boardDAO = " + categoryList);
+//		System.out.println("categorylist@boardDAO = " + categoryList);
 		return categoryList;
 	}
-	public int insertPointLog(Connection conn, int userKey,int postKey, int point) {
+
+	public int insertPointLog(Connection conn, int userKey, int postKey, int point) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertPointLog");
-		//insert into pnt_log values (seq_pnt_log.nextval,?,?,sysdate,?,?,(select point from member where key=?)-?)
-		
+		// insert into pnt_log values (seq_pnt_log.nextval,?,?,sysdate,?,?,(select point
+		// from member where key=?)-?)
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,userKey);
+			pstmt.setInt(1, userKey);
 			pstmt.setInt(2, postKey);
 			pstmt.setInt(3, point);
 			pstmt.setString(4, "E");
 			pstmt.setInt(5, userKey);
 			pstmt.setInt(6, point);
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		System.out.println("result@dao = " + result);
-		
+
 		return result;
 	}
+
 	public int selectBoardLastSeq(Connection conn) {
 		int boardNo = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectBoardLastSeq");
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			if (rset.next()) {
 				boardNo = rset.getInt("key");
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -272,9 +284,10 @@ public class BoardDAO {
 			close(pstmt);
 		}
 //		System.out.println("boardNo@dao = " + boardNo);
-		
+
 		return boardNo;
 	}
+
 	public int insertAdList(Connection conn, int postKey, int userKey) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -282,45 +295,45 @@ public class BoardDAO {
 //		insert into pnt_log values (seq_pnt_log.nextval,?,?,sysdate,?,?,(select point from member where key=?)-?)
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,userKey);
+			pstmt.setInt(1, userKey);
 			pstmt.setInt(2, postKey);
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		System.out.println("urlresult@dao = " + result);
-		
+
 		return result;
 	}
 
 	public int selectAdList(Connection conn, int userKey, int postKey) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		int result=0;
+		int result = 0;
 		String query = prop.getProperty("selectAdList");
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성
+			// 쿼리문미완성
 			pstmt.setInt(1, userKey);
 			pstmt.setInt(2, postKey);
-			//쿼리문실행
-			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// 쿼리문실행
+			// 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
-			if(rset.next()){
+			if (rset.next()) {
 				result = 1;
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		System.out.println("selectAdList@dao = "+result);
+		System.out.println("selectAdList@dao = " + result);
 		return result;
 	}
 
@@ -329,15 +342,15 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectCommentList");
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
-			
+
 			rset = pstmt.executeQuery();
-			
+
 			commentList = new ArrayList<>();
-			while(rset.next()) {
+			while (rset.next()) {
 				BoardComment bc = new BoardComment();
 				bc.setKey(rset.getInt("key"));
 				bc.setPostKey(rset.getInt("post_key"));
@@ -355,153 +368,151 @@ public class BoardDAO {
 //				bc.setBoardRef(rset.getInt("board_ref"));
 //				bc.setBoardCommentRef(rset.getInt("board_comment_ref"));// null -> 0 으로 자동치환
 //				bc.setBoardCommentDate(rset.getDate("board_comment_date"));
-				
+
 				commentList.add(bc);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		
+
 		return commentList;
 	}
 
 	public int insertBoardComment(Connection conn, BoardComment boardComment) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("insertBoardComment"); 
+		String query = prop.getProperty("insertBoardComment");
 		try {
-			//미완성쿼리문을 가지고 객체생성.
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문 변수대입
-			pstmt.setInt(1, boardComment.getPostKey()); 
+			// 쿼리문 변수대입
+			pstmt.setInt(1, boardComment.getPostKey());
 			pstmt.setInt(2, boardComment.getUserKey());
 			pstmt.setString(3, boardComment.getContent());
 			pstmt.setInt(4, boardComment.getCommentLevel());
 //			pstmt.setInt(5, boardComment.getBoardCommentRef());
-			String boardCommentRef = 
-					boardComment.getCommentRef() == 0 ?
-							null : 
-								String.valueOf(boardComment.getCommentRef());
-			
+			String boardCommentRef = boardComment.getCommentRef() == 0 ? null
+					: String.valueOf(boardComment.getCommentRef());
+
 			pstmt.setString(5, boardCommentRef);
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 //			throw new BoardException("댓글 등록 오류", e);
-			
-		} finally  {
+
+		} finally {
 			close(pstmt);
-		} 
-		
+		}
+
 		return result;
 	}
 
 	public int deleteBoardComment(Connection conn, int boardCommentNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("deleteBoardComment"); 
-		
+		String query = prop.getProperty("deleteBoardComment");
+
 		try {
-			//미완성쿼리문을 가지고 객체생성.
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성
+			// 쿼리문미완성
 			pstmt.setInt(1, boardCommentNo);
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
 	public int updateBoard(Connection conn, Board board) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("updateBoard"); 
-		
+		String query = prop.getProperty("updateBoard");
+
 		try {
-			//미완성쿼리문을 가지고 객체생성.
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성
+			// 쿼리문미완성
 			pstmt.setString(1, board.getTitle());
 			pstmt.setString(2, board.getContent());
 			pstmt.setString(3, board.getOriginalFileName());
 			pstmt.setString(4, board.getRenamedFileName());
 			pstmt.setInt(5, board.getKey());
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
 	public int deleteBoard(Connection conn, int boardNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("deleteBoard"); 
-		
+		String query = prop.getProperty("deleteBoard");
+
 		try {
-			//미완성쿼리문을 가지고 객체생성.
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성;
+			// 쿼리문미완성;
 			pstmt.setInt(1, boardNo);
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
 	public int updateBoardApply(Connection conn, int postKey) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("updateBoardApply"); 
-		
+		String query = prop.getProperty("updateBoardApply");
+
 		try {
-			//미완성쿼리문을 가지고 객체생성.
+			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//쿼리문미완성;
+			// 쿼리문미완성;
 			pstmt.setInt(1, postKey);
 			pstmt.setInt(2, postKey);
-			
-			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
-			//DML은 executeUpdate()
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
@@ -509,12 +520,23 @@ public class BoardDAO {
 		List<Board> list = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String sql = prop.getProperty("searchBoardPaging");
-		String col ="";
-		switch(String.valueOf(param.get("searchType"))) {
-		case "title" : col = "title"; break;
-		case "memberName" : col = "name"; break;
+		String col = "";
+		String keyword = "";
+		switch (String.valueOf(param.get("searchType"))) {
+		case "title":
+			col = "title";
+			keyword = "%" + param.get("searchKeyword") + "%";
+			break;
+		case "memberName":
+			col = "name";
+			keyword = "%" + param.get("searchKeyword") + "%";
+			break;
+		case "category":
+			col = "category_key";
+			keyword = param.get("searchKeyword")+"";
+			break;
 		}
 //		System.out.println("col@DAO="+col);
 		sql = sql.replace("●", col);
@@ -523,21 +545,20 @@ public class BoardDAO {
 //		System.out.println("param.get(\"searchKeyword\")="+param.get("searchKeyword"));
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-				pstmt.setString(1, "%" + param.get("searchKeyword") + "%");
-			
-			
-			int cPage = (int)param.get("cPage");
-			int numPerPage = (int)param.get("numPerPage");			
-			pstmt.setInt(2, (cPage-1) * numPerPage + 1);
+
+			pstmt.setString(1, keyword);
+
+			int cPage = (int) param.get("cPage");
+			int numPerPage = (int) param.get("numPerPage");
+			pstmt.setInt(2, (cPage - 1) * numPerPage + 1);
 			pstmt.setInt(3, cPage * numPerPage);
-			
+
 			rset = pstmt.executeQuery();
-			
+
 			list = new ArrayList<>();
-			while(rset.next()) {
+			while (rset.next()) {
 				Board board = new Board();
-				
+
 				board.setKey(rset.getInt("key"));
 				board.setCategoryKey(rset.getInt("category_key"));
 				board.setUserKey(rset.getInt("user_key"));
@@ -553,16 +574,14 @@ public class BoardDAO {
 				board.setApplyNum(rset.getInt("apply_num"));
 				board.setMainImageOrigin(rset.getString("main_image_origin"));
 				board.setMainImageRename(rset.getString("main_image_rename"));
-				
+
 				board.setRefMemberName(rset.getString("name"));
 				board.setRefBoardCategoryName(rset.getString("category_name"));
-				
-				
+
 				list.add(board);
 			}
-			
-			
-		}catch (SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
@@ -579,21 +598,32 @@ public class BoardDAO {
 		String sql = prop.getProperty("getSearchTotalContents");
 //		System.out.println(sql);
 		String col = "";
-		switch(String.valueOf(param.get("searchType"))) {
-		case "title" : col = "title"; break;
-		case "memberName" : col = "name"; break;
+		String keyword = "";
+		switch (String.valueOf(param.get("searchType"))) {
+		case "title":
+			col = "title";
+			keyword = "%" + param.get("searchKeyword") + "%";
+			break;
+		case "memberName":
+			col = "name";
+			keyword = "%" + param.get("searchKeyword") + "%";
+			break;
+		case "category":
+			col = "category_key";
+			keyword = param.get("searchKeyword")+"";
+			break;
+
 		}
 		sql = sql.replace("●", col);
 //		System.out.println("param.get(\"searchKeyword\")="+param.get("searchKeyword"));
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-				pstmt.setString(1, "%" + param.get("searchKeyword") + "%");
+			pstmt.setString(1, keyword);
 
-			
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			if (rset.next()) {
 				totalContents = rset.getInt("total_contents");
 			}
 		} catch (SQLException e) {

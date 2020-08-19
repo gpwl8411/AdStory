@@ -30,7 +30,7 @@ public class MemberDAO {
 		String fileName = "/sql/member/member-query.properties";
 		fileName =  MemberDAO.class.getResource(fileName)
 								   .getPath();
-		System.out.println("fileName@dao = " + fileName);
+//		System.out.println("fileName@dao = " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (IOException e) {
@@ -45,8 +45,8 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectOne");
-		System.out.println("sql@memberDAO = " + sql);
-		System.out.println("memberId@memberDAO = " + memberId);
+//		System.out.println("sql@memberDAO = " + sql);
+//		System.out.println("memberId@memberDAO = " + memberId);
 		
 		try {
 			//1. PreparedStatement객체생성, 미완성쿼리 전달
@@ -55,11 +55,11 @@ public class MemberDAO {
 			
 			//2. 실행 
 			rset = pstmt.executeQuery();
-			System.out.println("rset@memberDAO = " + rset);
+//			System.out.println("rset@memberDAO = " + rset);
 			
 			//3.ResultSet -> Member
 			if(rset.next()) {
-				System.out.println("sefsef" + rset.getDate("enroll_date"));
+//				System.out.println("sefsef" + rset.getDate("enroll_date"));
 				
 				member = new Member();
 				
@@ -86,7 +86,7 @@ public class MemberDAO {
 			close(rset);
 			close(pstmt);
 		}
-		System.out.println("member@dao = " + member);
+//		System.out.println("member@dao = " + member);
 		
 		return member;
 	}
@@ -112,7 +112,7 @@ public class MemberDAO {
 		} finally {
 			close(pstmt);
 		}
-		System.out.println("result@DAO = " + result);
+//		System.out.println("result@DAO = " + result);
 		return result;
 	}
 

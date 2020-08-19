@@ -1,35 +1,34 @@
+<%@page import="board.model.vo.BoardCategory"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="board.model.vo.Board"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
+<%
+	List<Board> list = (List<Board>) request.getAttribute("list");
+List<BoardCategory> categoryList = (List<BoardCategory>) request.getAttribute("categoryList");
+%>
 <!-- 상단 nav -->
 <nav
 	class="text-center font-bold sm:flex sm:justify-center sm:items-center mt-4">
 	<div class="flex flex-col sm:flex-row">
+	<a
+			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
+			href="<%=request.getContextPath()%>/board/list">전체</a>
+	<%if(categoryList != null){
+		for(BoardCategory c : categoryList){
+		%>
+
 		<a
 			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">전체</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">건강식품</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">화장품&미용</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">가전제품</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">생활용품</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">교육</a> <a
-			class="mt-3 text-gray-700 hover:text-blue-700 hover:underline sm:mx-3 sm:mt-0"
-			href="#">요식업</a>
+			href="<%=request.getContextPath()%>/board/finder?searchType=category&searchKeyword=<%=c.getKey()%>"><%= c.getCategoryName()%></a>
+		<%} }%>
+		
 	</div>
 </nav>
 
-<%
-	List<Board> list = (List<Board>) request.getAttribute("list");
-%>
+
 
 <div class="container my-12 mx-auto px-4 md:px-12">
 	<%

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
 import board.model.vo.Board;
+import board.model.vo.BoardCategory;
 import common.Utils;
 
 /**
@@ -55,8 +56,10 @@ public class BoardFinderServlet extends HttpServlet {
 		param.put("numPerPage", numPerPage);
 		System.out.println("param = " + param);
 		
-		List<Board> list = new BoardService().searchBoard(param);
-		System.out.println("list@servlet = " + list);
+		BoardService boardService = new BoardService();
+		List<Board> list = boardService.searchBoard(param);
+		List<BoardCategory> categoryList = boardService.selectCategoryList();
+//		System.out.println("list@servlet = " + list);
 		
 		int totalContents = new BoardService().getTotalContents(param);
 		System.out.println("totalContents@servlet = " + totalContents);
@@ -71,6 +74,7 @@ public class BoardFinderServlet extends HttpServlet {
 		//3. view handling
 		request.setAttribute("list", list);
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("categoryList", categoryList);
 		request.getRequestDispatcher("/WEB-INF/views/board/boardFinder.jsp")
 			   .forward(request, response);		
 	}

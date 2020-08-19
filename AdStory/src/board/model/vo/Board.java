@@ -48,6 +48,7 @@ public class Board implements Serializable {
 		this.renamedFileName = renamedFileName;
 		this.applyNum = applyNum;
 		this.mainImageOrigin = mainImageOrigin;
+		this.mainImageRename = mainImageRename;
 	}
 
 
