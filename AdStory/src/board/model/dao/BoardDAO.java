@@ -83,7 +83,7 @@ public class BoardDAO {
 		return b;
 	}
 
-	public List<Board> selectBoardList(Connection conn, int cPage, int numPerPage) {
+	public List<Board> selectBoardList(Connection conn, int cPage, int numPerPage,int userKey) {
 		List<Board> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -93,10 +93,10 @@ public class BoardDAO {
 		try {
 			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-
+			pstmt.setInt(1, userKey);
 			// 시작 rownum과 마지막 rownum 구하는 공식
-			pstmt.setInt(1, (cPage - 1) * numPerPage + 1);
-			pstmt.setInt(2, cPage * numPerPage);
+			pstmt.setInt(2, (cPage - 1) * numPerPage + 1);
+			pstmt.setInt(3, cPage * numPerPage);
 			// 쿼리문실행
 			// 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
@@ -122,8 +122,9 @@ public class BoardDAO {
 
 				b.setRefMemberName(rset.getString("name"));
 				b.setRefBoardCategoryName(rset.getString("category_name"));
+				b.setIsLike(rset.getInt("is_like"));
 
-//				System.out.println("b = "+b);
+//				System.out.println("&&&&&&&&&b = "+b);
 
 				list.add(b);
 			}
@@ -415,17 +416,19 @@ public class BoardDAO {
 		return result;
 	}
 
-	public int deleteBoardComment(Connection conn, int boardCommentNo) {
+	public int deleteBoardComment(Connection conn, int boardCommentNo,String role) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String query = prop.getProperty("deleteBoardComment");
+		String status="T";
+		if(role.equals("A")) status="A";
 
 		try {
 			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
 			// 쿼리문미완성
-			pstmt.setInt(1, boardCommentNo);
-
+			pstmt.setString(1,status);
+			pstmt.setInt(2, boardCommentNo);
 			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			// DML은 executeUpdate()
 			result = pstmt.executeUpdate();
@@ -452,7 +455,8 @@ public class BoardDAO {
 			pstmt.setString(2, board.getContent());
 			pstmt.setString(3, board.getOriginalFileName());
 			pstmt.setString(4, board.getRenamedFileName());
-			pstmt.setInt(5, board.getKey());
+			pstmt.setString(5, board.getUrl());
+			pstmt.setInt(6, board.getKey());
 
 			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			// DML은 executeUpdate()
@@ -547,11 +551,12 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, keyword);
-
+			pstmt.setInt(2, (int) param.get("userKey"));
+			
 			int cPage = (int) param.get("cPage");
 			int numPerPage = (int) param.get("numPerPage");
-			pstmt.setInt(2, (cPage - 1) * numPerPage + 1);
-			pstmt.setInt(3, cPage * numPerPage);
+			pstmt.setInt(3, (cPage - 1) * numPerPage + 1);
+			pstmt.setInt(4, cPage * numPerPage);
 
 			rset = pstmt.executeQuery();
 
@@ -577,6 +582,7 @@ public class BoardDAO {
 
 				board.setRefMemberName(rset.getString("name"));
 				board.setRefBoardCategoryName(rset.getString("category_name"));
+				board.setIsLike(rset.getInt("is_like"));
 
 				list.add(board);
 			}
@@ -634,4 +640,6 @@ public class BoardDAO {
 		}
 		return totalContents;
 	}
+
+
 }

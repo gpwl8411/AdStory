@@ -18,7 +18,7 @@ import member.model.vo.Member;
  * 
  */
 @WebFilter(urlPatterns = {
-	"/myPage","/board/view"
+	"/myPage","/board/view","/board/insert"
 })
 public class LoginFilter implements Filter {
 

@@ -142,6 +142,7 @@
                      <p class="text-indigo-700"><%= (String)Commas.format(memberLoggedIn.getPoint()) %>P</p>
                      <% } %>
                 </div>
+                
 <% } %>             
 
 

@@ -23,6 +23,7 @@ public class Board implements Serializable {
 	
 	private String refMemberName;
 	private String refBoardCategoryName;
+	private int isLike;
 	
 	public Board() {
 		super();
@@ -54,7 +55,7 @@ public class Board implements Serializable {
 
 	public Board(int key, int categoryKey, int userKey, String title, String content, Date enrollDate, String status,
 			int clickPrice, int point, String url, String originalFileName, String renamedFileName, int applyNum,
-			String mainImage, String refMemberName, String refBoardCategoryName) {
+			String mainImage, String refMemberName, String refBoardCategoryName,int isLike) {
 		super();
 		this.key = key;
 		this.categoryKey = categoryKey;
@@ -73,6 +74,7 @@ public class Board implements Serializable {
 		this.mainImageRename = mainImageRename;
 		this.refMemberName = refMemberName;
 		this.refBoardCategoryName = refBoardCategoryName;
+		this.isLike = isLike;
 	}
 
 	public int getKey() {
@@ -210,6 +212,15 @@ public class Board implements Serializable {
 		this.refBoardCategoryName = refBoardCategoryName;
 	}
 
+	public int getIsLike() {
+		return isLike;
+	}
+
+
+	public void setIsLike(int isLike) {
+		this.isLike = isLike;
+	}
+
 
 	@Override
 	public String toString() {
@@ -218,8 +229,11 @@ public class Board implements Serializable {
 				+ clickPrice + ", point=" + point + ", url=" + url + ", originalFileName=" + originalFileName
 				+ ", renamedFileName=" + renamedFileName + ", applyNum=" + applyNum + ", mainImageOrigin="
 				+ mainImageOrigin + ", mainImageRename=" + mainImageRename + ", refMemberName=" + refMemberName
-				+ ", refBoardCategoryName=" + refBoardCategoryName + "]";
+				+ ", refBoardCategoryName=" + refBoardCategoryName + ", isLike=" + isLike + "]";
 	}
+
+
+
 
 	
 

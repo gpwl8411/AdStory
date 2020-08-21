@@ -34,9 +34,9 @@ public class BoardService {
 		return board;
 	}
 	
-	public List<Board> selectBoardList(int cPage, int numPerPage) {
+	public List<Board> selectBoardList(int cPage, int numPerPage,int userKey) {
 		Connection conn = getConnection();
-		List<Board> list= boardDAO.selectBoardList(conn, cPage, numPerPage);
+		List<Board> list= boardDAO.selectBoardList(conn, cPage, numPerPage,userKey);
 		close(conn);
 		return list;
 	}
@@ -116,9 +116,9 @@ public class BoardService {
 		return result;
 	}
 
-	public int deleteBoardComment(int boardCommentNo) {
+	public int deleteBoardComment(int boardCommentNo,String role) {
 		Connection conn = getConnection();
-		int result = boardDAO.deleteBoardComment(conn, boardCommentNo);
+		int result = boardDAO.deleteBoardComment(conn, boardCommentNo,role);
 		if(result>0)
 			commit(conn);
 		else 
@@ -191,6 +191,7 @@ public class BoardService {
 		close(conn);
 		return totalContents;
 	}
+
 
 
 }
