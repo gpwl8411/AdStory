@@ -91,8 +91,8 @@ public class BoardInsertServlet extends HttpServlet {
 			= multipartRequest.getOriginalFileName("upMainImage");
 		String mainImageRename
 		= multipartRequest.getFilesystemName("upMainImage");
-//		System.out.println("***메인이미지"+mainImageOrigin);
-//		System.out.println("***메인이미지"+mainImageRename);
+		System.out.println("***메인이미지"+mainImageOrigin);
+		System.out.println("***메인이미지"+mainImageRename);
 		//사용자가 업로드한 파일명
 		String originalFileName 
 			= multipartRequest.getOriginalFileName("upFile");
