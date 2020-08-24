@@ -23,14 +23,11 @@ public class MemberService {
 	private PointLogDAO pointLogDAO = new PointLogDAO();
 	
 	public Member selectOne(String memberId) {
-		System.out.println("memberId@service = " + memberId);
 		//1. DB Connection객체 생성
 		Connection conn = getConnection();
-		System.out.println("conn = " + conn);
 		//2. DAO 처리 요청
 		Member member = memberDAO.selectOne(conn, memberId);
 		
-		System.out.println("member@service = " + member);
 		//3. DML요청인 경우, Transaction 처리
 		//4. Connection 반납(close)
 		close(conn);
@@ -41,7 +38,6 @@ public class MemberService {
 	public int updateMemberPoint(String userId, int pointAmount) {
 		//1. DB Connection객체 생성
 		Connection conn = getConnection();
-		System.out.println("conn = " + conn);
 		//2. DAO 처리 요청
 		int result = memberDAO.updateMemberPoint(conn, userId, pointAmount);
 		
@@ -162,6 +158,111 @@ public class MemberService {
 		close(conn);
 		return totalContents;
 	}
+	
+	public int insertMember(Member member) {
+		Connection conn = getConnection();
+		int result = new MemberDAO().insertMember(conn, member);
+		if (result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int insertNomalMember(Member member) {
+		
+		Connection conn = getConnection();
+		int result = new MemberDAO().insertNomalMember(conn, member);
+		if (result > 0)
+			commit(conn);
+		else
+			rollback(conn);
+		close(conn);
+		return result;
+		
+	}
+
+	public int updateMember(Member member) {
+		Connection conn = getConnection();
+		int result = new MemberDAO().updateMember(conn, member);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int updatePassword(Member member) {
+		Connection conn = getConnection();
+		int result = new MemberDAO().updatePassword(conn, member);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int deleteMember(String memberId) {
+		Connection conn = getConnection();
+		int result = new MemberDAO().deleteMember(conn, memberId);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+
+	public Member selectMail(String email) {
+		//1. DB Connection객체 생성
+		Connection conn = getConnection();
+		//2. DAO 처리 요청
+		Member member = memberDAO.selectMail(conn, email);
+		
+		//3. DML요청인 경우, Transaction 처리
+		//4. Connection 반납(close)
+		close(conn);
+		
+		return member; 
+	}
+
+	public Member selectPW(String memberId, String name, String email) {
+
+		//1. DB Connection객체 생성
+		Connection conn = getConnection();
+		//2. DAO 처리 요청
+
+		Member member = memberDAO.selectPW(conn, memberId,name,email);
+
+		
+		//3. DML요청인 경우, Transaction 처리
+		//4. Connection 반납(close)
+		close(conn);
+
+		return member;
+
+	}
+
+
+	public Member selectId(String name, String email) {
+
+		//1. DB Connection객체 생성
+		Connection conn = getConnection();
+		//2. DAO 처리 요청
+
+		Member member = memberDAO.selectId(conn,name,email);
+
+		
+		//3. DML요청인 경우, Transaction 처리
+		//4. Connection 반납(close)
+		close(conn);
+
+		return member;
+	}
 
 	public List<MemberWishList> selectWishList(int cPage, int numPerPage, int userKey) {
 		Connection conn = getConnection();
@@ -201,6 +302,7 @@ public class MemberService {
 		int totalWishListCount = memberDAO.selectWishListCount(conn, userKey);
 		close(conn);
 		return totalWishListCount;
+
 	}
 	
 	

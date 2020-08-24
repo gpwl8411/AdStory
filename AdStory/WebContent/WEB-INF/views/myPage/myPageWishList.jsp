@@ -40,7 +40,7 @@
             <th class="px-4 py-2">연락처</th>
  
             <th class="px-4 py-2">주소</th>
- =
+ 
             <th class="px-4 py-2">이메일</th>
           </tr>
         </thead>

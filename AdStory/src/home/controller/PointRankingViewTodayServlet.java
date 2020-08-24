@@ -35,10 +35,10 @@ public class PointRankingViewTodayServlet extends HttpServlet {
 		
 		List<PointLogRanking> list = new PointLogService().PointLogRankingTodayList();
 		
-		System.out.println("list@servlet = " + list);
 		
 		String view = "/WEB-INF/views/home/PointRankingView.jsp";
 		
+		request.setAttribute("servletType","today");
 		request.setAttribute("list",list);
 		RequestDispatcher reqDispatcher = request.getRequestDispatcher(view);
 		reqDispatcher.forward(request, response);

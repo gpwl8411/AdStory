@@ -37,10 +37,9 @@ public class BoardDeleteServlet extends HttpServlet {
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 		
 		//2.서비스로직호출
-		BoardService boardService = new BoardService();
-		Board board = boardService.selectOne(boardNo);
+		Board board = new BoardService().selectOne(boardNo);
 //		String renamedFileName = board.getRenamedFileName();
-		int result = boardService.deleteBoard(boardNo);
+		int result = new BoardService().deleteBoard(boardNo);
 		
 		//파일삭제
 //		if(renamedFileName != null) {

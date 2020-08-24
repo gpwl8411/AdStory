@@ -191,6 +191,18 @@ public class BoardService {
 		close(conn);
 		return totalContents;
 	}
+	public List<Board> selectMemberBoardList(int cPage, int numPerPage, String memberId) {
+        Connection conn = getConnection();
+        List<Board> list= boardDAO.selectMemberBoardList(conn, cPage, numPerPage, memberId);
+        close(conn);
+        return list;
+    }
+    public int selectMemberBoardListCount(String memberId) {
+        Connection conn = getConnection();
+        int totalBoardCount = boardDAO.selectMemberBoardListCount(conn, memberId);
+        close(conn);
+        return totalBoardCount;
+    }
 
 
 

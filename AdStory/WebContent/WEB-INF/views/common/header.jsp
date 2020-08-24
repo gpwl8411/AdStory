@@ -119,8 +119,14 @@
                 </div>
 <%} else { %>
 
-                <div class="profile_img_div border-b mx-4 py-10"
-                onclick="location.href='<%= request.getContextPath() %>/myPage';">
+                
+                
+                <%if("A".equals(memberLoggedIn.getMemberRole())){%>
+                <div class="profile_img_div border-b mx-4 py-10" onclick="location.href='<%= request.getContextPath() %>/admin/main';">
+                <%} else { %>
+                <div class="profile_img_div border-b mx-4 py-10" onclick="location.href='<%= request.getContextPath() %>/myPage';">
+                <% } %>
+                
                      <img class="profile_img"
                      src="<%=request.getContextPath() %>/images/<%=profileImageName %>" alt="프로필사진"> 
                      
@@ -142,14 +148,13 @@
                      <p class="text-indigo-700"><%= (String)Commas.format(memberLoggedIn.getPoint()) %>P</p>
                      <% } %>
                 </div>
-                
 <% } %>             
 
 
                 <ul class="sidenav__list">
                     <%if(memberLoggedIn != null&&"A".equals(memberLoggedIn.getMemberRole())){%>
                     <li class="font-bold text-indigo-700 sidenav__list-item"
-                    onclick="location.href='<%= request.getContextPath() %>/admin/main';">관리자 페이지 <i class="fas fa-tools"></i></li>
+                    onclick="location.href='<%= request.getContextPath() %>/admin/main';">관리자 페이지</li>
                     <br>
                     <% } %> 
                     
@@ -162,7 +167,11 @@
                     <li class="sidenav__list-item"
                         onclick="location.href='<%= request.getContextPath() %>/board/list';">광고 게시판</li>
                     
-                    <li class="sidenav__list-item">문의게시판</li>
+                  <li class="sidenav__list-item"
+						onclick="location.href='<%= request.getContextPath() %>/enquiry/elist';">문의게시판</li>
+
+                    <li class="sidenav__list-item"
+                        onclick="location.href='<%= request.getContextPath() %>/tipBoard/list';">팁 게시판</li>
                     
                     
                 </ul>

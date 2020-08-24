@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import board.model.vo.Board;
-import board.model.vo.BoardCategory;
 import notice.model.vo.Notice;
 import notice.model.vo.NoticeCategory;
 
@@ -119,7 +117,6 @@ public class NoticeDAO {
 		}finally {
 			close(pstmt);
 		}
-		System.out.println("result@dao = " + result);
 		return result;
 	}
 
@@ -150,7 +147,6 @@ public class NoticeDAO {
 		}finally{
 			close(rset);
 			close(pstmt);
-			System.out.println("notice@DAO=" + notice);
 		}
 		return notice;
 	}

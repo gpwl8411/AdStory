@@ -36,7 +36,7 @@ public class NoticeViewServlet extends HttpServlet {
 		//1.파리미터 글번호
 				
 				int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-							
+						
 								
 				//게시글 하나 가져오기
 				
