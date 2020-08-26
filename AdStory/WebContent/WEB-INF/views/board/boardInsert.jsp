@@ -199,7 +199,9 @@
 	$("#thumbnails").on("click", ".close", function(e) {
 		var $target = $(e.target);
 		var idx = $target.attr('data-idx');
-		uploadFile = [];//삭제된 항목은 업로드하지 않기 위해 플래그 생성
+		uploadFile =[];//삭제된 항목은 업로드하지 않기 위해 플래그 생성
+		//alert("동작이 안되나?");
+		$("#upMainImage").replaceWith($("#upMainImage").val('').clone(true));
 		$target.parent().remove(); //프리뷰 삭제
 	});
 	function boardValidate(e) {
