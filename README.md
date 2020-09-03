@@ -1,18 +1,18 @@
-jsp/servlet À¥ ÇÁ·ÎÁ§Æ®
+jsp/servlet ì›¹ í”„ë¡œì íŠ¸
 # AdStory
-### ¹ÙÀÌ·²¸¶ÄÉÆÃÇÁ·Î¹ÙÀÌ´õ »çÀÌÆ® º¥Ä¡¸¶Å·
+### ë°”ì´ëŸ´ë§ˆì¼€íŒ…í”„ë¡œë°”ì´ë” ì‚¬ì´íŠ¸ ë²¤ì¹˜ë§ˆí‚¹
 ---------------------------
-##Èå¸§µµ
+##íë¦„ë„
 
-### »ç¿ë
+### ì‚¬ìš©
 > front : html5,css,javascript
->         > jquery,tailwind
+>        > jquery,tailwind
 > back : java,jsp,servlet,jdbc,WAS(tomcat),DB(oracle)
 
-## »ç¿ë¹æ¹ý
-### ¼³Ä¡ÇÏ±â
+## ì‚¬ìš©ë°©ë²•
+### ì„¤ì¹˜í•˜ê¸°
 * AphacheTomcat 9.0v 
 * Oracel 11g
->        >ÇÁ·ÎÁ§Æ® Æú´õ¿¡ ÀÖ´Â sqlÆÄÀÏÀ» ½ÇÇà½ÃÄÑÁØ´Ù.
-* IDE - ÀÌÅ¬¸³½º¸¦ »ç¿ëÇßÀ½
+>        >í”„ë¡œì íŠ¸ í´ë”ì— ìžˆëŠ” sqlíŒŒì¼ì„ ì‹¤í–‰ì‹œì¼œì¤€ë‹¤.
+* IDE - ì´í´ë¦½ìŠ¤ë¥¼ ì‚¬ìš©í–ˆìŒ
 * java
