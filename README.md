@@ -1,9 +1,9 @@
-jsp/servlet 웹 프로젝트
+#### 바이럴마케팅프로바이더 사이트 벤치마킹
 # AdStory
-### 바이럴마케팅프로바이더 사이트 벤치마킹
 ---------------------------
-## 흐름도
 
+## 흐름도
+![흐름도](https://user-images.githubusercontent.com/39455087/92141977-23944200-ee4e-11ea-98b5-64cde21d92f2.JPG)
 ### 사용
 > front : html5,css,javascript
 jquery,tailwind
