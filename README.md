@@ -13,6 +13,6 @@ jquery,tailwind
 ### 설치하기
 * AphacheTomcat 9.0v 
 * Oracel 11g
->        >프로젝트 폴더에 있는 sql파일을 실행시켜준다.
+>        > 프로젝트 폴더에 있는 sql파일을 실행시켜준다.
 * IDE - 이클립스를 사용했음
 * java
